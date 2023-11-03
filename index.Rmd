@@ -11,11 +11,57 @@ output:
 
 ## Project thoughts
 
-Does the socioeconomic status of a Los Angeles neighborhood influence rates of sexual violence? In this study, I plan to examine the extent to which affluence alters the frequency of crimes such as rape or intimate assault. I hypothesize that said crimes are likely to occur at a higher rate within lower-income communities, relative to higher-income communities; and that values will fall along in a scalar manner. Within lower-income neighborhoods, potential victims are seen as more vulnerable given their lack of restorative resources, and potential perpetrators may have higher rates of self-injurious, non-sexual stressors (such as drug usage, hostility towards the world, etc). My sample consists of raw crime data from the City of Los Angeles from 2020 to 2023. My unit of analysis is the frequency of a reported crime of sexual violence, and the explanatory variable of interest is a defined neighborhood inside of the city — particularly in relation to its socioeconomic standing. The variable is coded by the name of the neighborhood (e.g. “N Hollywood”), while the outcome variable is the count of a reported crime of sexual violence divided by the number of individuals in a given neighborhood. For instance, if there were “x” amount of crimes of sexual violence divided by “y” amount of people in “z” neighborhood, the value “x/y” would be the area-specific frequency that we are attempting to analyze. If I were to observe greater rates of crimes of sexual violence under lower-income areas, this would provide support for my hypothesis (in essence, regression of these rates with said reas ought to provide a positive correlation). Contrarily, if I were to observe similar or lower rates of crimes of sexual violence, this would provide evidence against my original theory. 
+Does the socioeconomic status of a Los Angeles neighborhood influence rates of reported sexual violence? In this study, I plan to examine the extent to which affluence alters the reported frequency of crimes such as rape or intimate assault. I hypothesize that said crimes are likely to occur at a higher-reported rate within lower-income communities, relative to higher-income communities; and that values will fall along in a scalar manner. Within lower-income neighborhoods, potential victims are seen as more vulnerable given their lack of restorative resources, and potential perpetrators may have higher rates of self-injurious, non-sexual stressors (such as drug usage, hostility towards the world, etc). My sample consists of raw crime data from the City of Los Angeles from 2020 to 2023. My unit of analysis is the frequency of a reported crime of sexual violence, and the explanatory variable of interest is a defined neighborhood inside of the city — particularly in relation to its socioeconomic standing. The variable is coded by the name of the neighborhood (e.g. “N Hollywood”), while the outcome variable is the count of a reported crime of sexual violence divided by the number of individuals in a given neighborhood. For instance, if there were “x” amount of crimes of sexual violence divided by “y” amount of people in “z” neighborhood, the value “x/y” would be the area-specific frequency that we are attempting to analyze. If I were to observe greater rates of crimes of sexual violence under lower-income areas, this would provide support for my hypothesis (in essence, regression of these rates with said areas ought to provide a positive correlation). Contrarily, if I were to observe similar or lower rates of crimes of sexual violence, this would provide evidence against my original theory. 
 
 ```{r}
 library(readr)
-library(readr)
+library(dplyr)
+library(ggplot2)
 lacrimedata <- read_csv("lacrimedata.csv")
 ```
 
+```{r}
+unique_crimes_list <- unique(lacrimedata$`Crm Cd Desc`)
+unique_crimes_list
+
+unique_areas_list <- unique(lacrimedata$`AREA NAME`)
+unique_areas_list
+
+colnames(lacrimedata)[colnames(lacrimedata) == "Crm Cd Desc"] <- "crimedesc"
+
+lacrimedata_sc <- filter(lacrimedata, crimedesc %in% c(
+  "RAPE, FORCIBLE", "BATTERY WITH SEXUAL CONTACT",
+  "LETTERS, LEWD  -  TELEPHONE CALLS, LEWD",
+  "SEX,UNLAWFUL(INC MUTUAL CONSENT, PENETRATION W/ FRGN OBJ",
+  "CRM AGNST CHLD (13 OR UNDER) (14-15 & SUSP 10 YRS OLDER)", 
+  "SEXUAL PENETRATION W/FOREIGN OBJECT",
+  "INDECENT EXPOSURE" ,
+  "ORAL COPULATION", 
+  "LEWD/LASCIVIOUS ACTS WITH CHILD", "LEWD CONDUCT", 
+  "SODOMY/SEXUAL CONTACT B/W PENIS OF ONE PERS TO ANUS OTH", 
+  "PIMPING", "PANDERING", "RAPE, ATTEMPTED", 
+  "HUMAN TRAFFICKING - COMMERCIAL SEX ACTS", "CHILD PORNOGRAPHY", 
+  "PEEPING TOM", "BEASTIALITY, CRIME AGAINST NATURE SEXUAL ASSLT WITH ANIM", 
+  "INCEST (SEXUAL ACTS BETWEEN BLOOD RELATIVES)"
+))
+
+lacrimedata_sc
+```
+
+Here, we've cleaned up the data further. After changing the variable name of the crime classifier for easier access, we've slimmed the data frame down to only crimes of sexual violence, and assigned it to a new dataframe named `lacrimedata_sc`.
+
+```{r}
+visual1 <- lacrimedata_sc |> 
+  group_by(`AREA NAME`) |>
+  summarize(Count = n()) |>
+  ggplot(mapping = aes(x = `AREA NAME`, y = Count)) + 
+  geom_col(fill = "skyblue") + 
+  labs(x = "Sub-Area of Los Angeles", 
+       y = "Number of Reported Cases of Sexual Violence",
+       title = "Neighborhood to # of Reported Cases of Sexual Violence, LA, 2020-2023")
+  
+
+visual1
+```
+
+Here, we've created a preliminary barplot -- it reflects the distribution of reported crimes of sexual violence by neighborhood in Los Angeles.
