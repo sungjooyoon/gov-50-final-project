@@ -64,4 +64,4 @@ visual1 <- lacrimedata_sc |>
 visual1
 ```
 
-Here, we've created a preliminary barplot -- it reflects the distribution of reported crimes of sexual violence by neighborhood in Los Angeles.
+Here, we've created a preliminary barplot -- it reflects the distribution of reported crimes of sexual violence by neighborhood in Los Angeles. For my final project, I will need to take this a few steps further (refining the data by a per capita measure, and further grouping neighborhoods by income) -- but I am also working on finding the right auxiliary data for that. If possible, I will also try to control for various rates of underreporting (and other reporting practices) -- if not, I will change the scope of the original project to only examine reported crimes (and acknowledge the limitations in that regard).

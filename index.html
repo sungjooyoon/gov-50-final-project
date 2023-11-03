@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["Crime_Data_from_2020_to_Present.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","lacrimedata.csv"]}
+  {"type":"character","attributes":{},"value":["Crime_Data_from_2020_to_Present.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","lacrimedata.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1518,15 +1518,223 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 
 <div class="d-article">
 <h2 id="project-thoughts">Project thoughts</h2>
-<p>Does the socioeconomic status of a Los Angeles neighborhood influence rates of sexual violence? In this study, I plan to examine the extent to which affluence alters the frequency of crimes such as rape or intimate assault. I hypothesize that said crimes are likely to occur at a higher rate within lower-income communities, relative to higher-income communities; and that values will fall along in a scalar manner. Within lower-income neighborhoods, potential victims are seen as more vulnerable given their lack of restorative resources, and potential perpetrators may have higher rates of self-injurious, non-sexual stressors (such as drug usage, hostility towards the world, etc). My sample consists of raw crime data from the City of Los Angeles from 2020 to 2023. My unit of analysis is the frequency of a reported crime of sexual violence, and the explanatory variable of interest is a defined neighborhood inside of the city — particularly in relation to its socioeconomic standing. The variable is coded by the name of the neighborhood (e.g. “N Hollywood”), while the outcome variable is the count of a reported crime of sexual violence divided by the number of individuals in a given neighborhood. For instance, if there were “x” amount of crimes of sexual violence divided by “y” amount of people in “z” neighborhood, the value “x/y” would be the area-specific frequency that we are attempting to analyze. If I were to observe greater rates of crimes of sexual violence under lower-income areas, this would provide support for my hypothesis (in essence, regression of these rates with said reas ought to provide a positive correlation). Contrarily, if I were to observe similar or lower rates of crimes of sexual violence, this would provide evidence against my original theory.</p>
+<p>Does the socioeconomic status of a Los Angeles neighborhood influence rates of reported sexual violence? In this study, I plan to examine the extent to which affluence alters the reported frequency of crimes such as rape or intimate assault. I hypothesize that said crimes are likely to occur at a higher-reported rate within lower-income communities, relative to higher-income communities; and that values will fall along in a scalar manner. Within lower-income neighborhoods, potential victims are seen as more vulnerable given their lack of restorative resources, and potential perpetrators may have higher rates of self-injurious, non-sexual stressors (such as drug usage, hostility towards the world, etc). My sample consists of raw crime data from the City of Los Angeles from 2020 to 2023. My unit of analysis is the frequency of a reported crime of sexual violence, and the explanatory variable of interest is a defined neighborhood inside of the city — particularly in relation to its socioeconomic standing. The variable is coded by the name of the neighborhood (e.g. “N Hollywood”), while the outcome variable is the count of a reported crime of sexual violence divided by the number of individuals in a given neighborhood. For instance, if there were “x” amount of crimes of sexual violence divided by “y” amount of people in “z” neighborhood, the value “x/y” would be the area-specific frequency that we are attempting to analyze. If I were to observe greater rates of crimes of sexual violence under lower-income areas, this would provide support for my hypothesis (in essence, regression of these rates with said areas ought to provide a positive correlation). Contrarily, if I were to observe similar or lower rates of crimes of sexual violence, this would provide evidence against my original theory.</p>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readr.tidyverse.org'>readr</a></span><span class='op'>)</span></span>
-<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readr.tidyverse.org'>readr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span></span>
+<span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span></span>
 <span><span class='va'>lacrimedata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"lacrimedata.csv"</span><span class='op'>)</span></span></code></pre>
 </div>
 </div>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>unique_crimes_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>$</span><span class='va'>`Crm Cd Desc`</span><span class='op'>)</span></span>
+<span><span class='va'>unique_crimes_list</span></span></code></pre>
+</div>
+<pre><code>  [1] &quot;BATTERY - SIMPLE ASSAULT&quot;                                
+  [2] &quot;SEX OFFENDER REGISTRANT OUT OF COMPLIANCE&quot;               
+  [3] &quot;VANDALISM - MISDEAMEANOR ($399 OR UNDER)&quot;                
+  [4] &quot;VANDALISM - FELONY ($400 &amp; OVER, ALL CHURCH VANDALISMS)&quot; 
+  [5] &quot;RAPE, FORCIBLE&quot;                                          
+  [6] &quot;SHOPLIFTING - PETTY THEFT ($950 &amp; UNDER)&quot;                
+  [7] &quot;OTHER MISCELLANEOUS CRIME&quot;                               
+  [8] &quot;THEFT-GRAND ($950.01 &amp; OVER)EXCPT,GUNS,FOWL,LIVESTK,PROD&quot;
+  [9] &quot;BURGLARY FROM VEHICLE&quot;                                   
+ [10] &quot;CRIMINAL THREATS - NO WEAPON DISPLAYED&quot;                  
+ [11] &quot;ARSON&quot;                                                   
+ [12] &quot;INTIMATE PARTNER - SIMPLE ASSAULT&quot;                       
+ [13] &quot;THEFT PLAIN - PETTY ($950 &amp; UNDER)&quot;                      
+ [14] &quot;THEFT OF IDENTITY&quot;                                       
+ [15] &quot;ROBBERY&quot;                                                 
+ [16] &quot;ASSAULT WITH DEADLY WEAPON, AGGRAVATED ASSAULT&quot;          
+ [17] &quot;BURGLARY&quot;                                                
+ [18] &quot;VEHICLE - STOLEN&quot;                                        
+ [19] &quot;THEFT FROM MOTOR VEHICLE - PETTY ($950 &amp; UNDER)&quot;         
+ [20] &quot;BRANDISH WEAPON&quot;                                         
+ [21] &quot;INTIMATE PARTNER - AGGRAVATED ASSAULT&quot;                   
+ [22] &quot;BUNCO, GRAND THEFT&quot;                                      
+ [23] &quot;THEFT, PERSON&quot;                                           
+ [24] &quot;BATTERY WITH SEXUAL CONTACT&quot;                             
+ [25] &quot;BIKE - STOLEN&quot;                                           
+ [26] &quot;BATTERY POLICE (SIMPLE)&quot;                                 
+ [27] &quot;LETTERS, LEWD  -  TELEPHONE CALLS, LEWD&quot;                 
+ [28] &quot;VIOLATION OF COURT ORDER&quot;                                
+ [29] &quot;TRESPASSING&quot;                                             
+ [30] &quot;THEFT FROM MOTOR VEHICLE - GRAND ($950.01 AND OVER)&quot;     
+ [31] &quot;VIOLATION OF RESTRAINING ORDER&quot;                          
+ [32] &quot;DISTURBING THE PEACE&quot;                                    
+ [33] &quot;THEFT FROM MOTOR VEHICLE - ATTEMPT&quot;                      
+ [34] &quot;THROWING OBJECT AT MOVING VEHICLE&quot;                       
+ [35] &quot;EXTORTION&quot;                                               
+ [36] &quot;SEX,UNLAWFUL(INC MUTUAL CONSENT, PENETRATION W/ FRGN OBJ&quot;
+ [37] &quot;CHILD STEALING&quot;                                          
+ [38] &quot;CRM AGNST CHLD (13 OR UNDER) (14-15 &amp; SUSP 10 YRS OLDER)&quot;
+ [39] &quot;ATTEMPTED ROBBERY&quot;                                       
+ [40] &quot;OTHER ASSAULT&quot;                                           
+ [41] &quot;BOMB SCARE&quot;                                              
+ [42] &quot;DOCUMENT FORGERY / STOLEN FELONY&quot;                        
+ [43] &quot;SEXUAL PENETRATION W/FOREIGN OBJECT&quot;                     
+ [44] &quot;SHOTS FIRED AT INHABITED DWELLING&quot;                       
+ [45] &quot;BURGLARY, ATTEMPTED&quot;                                     
+ [46] &quot;FAILURE TO YIELD&quot;                                        
+ [47] &quot;INDECENT EXPOSURE&quot;                                       
+ [48] &quot;ORAL COPULATION&quot;                                         
+ [49] &quot;EMBEZZLEMENT, GRAND THEFT ($950.01 &amp; OVER)&quot;              
+ [50] &quot;VIOLATION OF TEMPORARY RESTRAINING ORDER&quot;                
+ [51] &quot;BUNCO, PETTY THEFT&quot;                                      
+ [52] &quot;KIDNAPPING - GRAND ATTEMPT&quot;                              
+ [53] &quot;SHOPLIFTING-GRAND THEFT ($950.01 &amp; OVER)&quot;                
+ [54] &quot;RESISTING ARREST&quot;                                        
+ [55] &quot;DISCHARGE FIREARMS/SHOTS FIRED&quot;                          
+ [56] &quot;THREATENING PHONE CALLS/LETTERS&quot;                         
+ [57] &quot;KIDNAPPING&quot;                                              
+ [58] &quot;LEWD/LASCIVIOUS ACTS WITH CHILD&quot;                         
+ [59] &quot;LEWD CONDUCT&quot;                                            
+ [60] &quot;UNAUTHORIZED COMPUTER ACCESS&quot;                            
+ [61] &quot;PURSE SNATCHING&quot;                                         
+ [62] &quot;SODOMY/SEXUAL CONTACT B/W PENIS OF ONE PERS TO ANUS OTH&quot; 
+ [63] &quot;CHILD NEGLECT (SEE 300 W.I.C.)&quot;                          
+ [64] &quot;CONTEMPT OF COURT&quot;                                       
+ [65] &quot;CHILD ANNOYING (17YRS &amp; UNDER)&quot;                          
+ [66] &quot;BUNCO, ATTEMPT&quot;                                          
+ [67] &quot;CHILD ABUSE (PHYSICAL) - SIMPLE ASSAULT&quot;                 
+ [68] &quot;PIMPING&quot;                                                 
+ [69] &quot;STALKING&quot;                                                
+ [70] &quot;THEFT PLAIN - ATTEMPT&quot;                                   
+ [71] &quot;RAPE, ATTEMPTED&quot;                                         
+ [72] &quot;SHOPLIFTING - ATTEMPT&quot;                                   
+ [73] &quot;THEFT FROM PERSON - ATTEMPT&quot;                             
+ [74] &quot;VEHICLE - ATTEMPT STOLEN&quot;                                
+ [75] &quot;FALSE IMPRISONMENT&quot;                                      
+ [76] &quot;BURGLARY FROM VEHICLE, ATTEMPTED&quot;                        
+ [77] &quot;PICKPOCKET&quot;                                              
+ [78] &quot;EMBEZZLEMENT, PETTY THEFT ($950 &amp; UNDER)&quot;                
+ [79] &quot;DEFRAUDING INNKEEPER/THEFT OF SERVICES, $950 &amp; UNDER&quot;    
+ [80] &quot;COUNTERFEIT&quot;                                             
+ [81] &quot;CREDIT CARDS, FRAUD USE ($950 &amp; UNDER&quot;                   
+ [82] &quot;SHOTS FIRED AT MOVING VEHICLE, TRAIN OR AIRCRAFT&quot;        
+ [83] &quot;CRIMINAL HOMICIDE&quot;                                       
+ [84] &quot;DOCUMENT WORTHLESS ($200 &amp; UNDER)&quot;                       
+ [85] &quot;PROWLER&quot;                                                 
+ [86] &quot;DEFRAUDING INNKEEPER/THEFT OF SERVICES, OVER $950.01&quot;    
+ [87] &quot;ASSAULT WITH DEADLY WEAPON ON POLICE OFFICER&quot;            
+ [88] &quot;DISHONEST EMPLOYEE - GRAND THEFT&quot;                        
+ [89] &quot;HUMAN TRAFFICKING - COMMERCIAL SEX ACTS&quot;                 
+ [90] &quot;CHILD PORNOGRAPHY&quot;                                       
+ [91] &quot;PEEPING TOM&quot;                                             
+ [92] &quot;BATTERY ON A FIREFIGHTER&quot;                                
+ [93] &quot;TILL TAP - PETTY ($950 &amp; UNDER)&quot;                         
+ [94] &quot;CHILD ABUSE (PHYSICAL) - AGGRAVATED ASSAULT&quot;             
+ [95] &quot;TILL TAP - GRAND THEFT ($950.01 &amp; OVER)&quot;                 
+ [96] &quot;HUMAN TRAFFICKING - INVOLUNTARY SERVITUDE&quot;               
+ [97] &quot;FIREARMS RESTRAINING ORDER (FIREARMS RO)&quot;                
+ [98] &quot;DRIVING WITHOUT OWNER CONSENT (DWOC)&quot;                    
+ [99] &quot;DOCUMENT WORTHLESS ($200.01 &amp; OVER)&quot;                     
+[100] &quot;PANDERING&quot;                                               
+[101] &quot;CRUELTY TO ANIMALS&quot;                                      
+[102] &quot;CREDIT CARDS, FRAUD USE ($950.01 &amp; OVER)&quot;                
+[103] &quot;LYNCHING - ATTEMPTED&quot;                                    
+[104] &quot;ILLEGAL DUMPING&quot;                                         
+[105] &quot;PETTY THEFT - AUTO REPAIR&quot;                               
+[106] &quot;MANSLAUGHTER, NEGLIGENT&quot;                                 
+[107] &quot;BOAT - STOLEN&quot;                                           
+[108] &quot;RECKLESS DRIVING&quot;                                        
+[109] &quot;PURSE SNATCHING - ATTEMPT&quot;                               
+[110] &quot;FALSE POLICE REPORT&quot;                                     
+[111] &quot;BIKE - ATTEMPTED STOLEN&quot;                                 
+[112] &quot;CONSPIRACY&quot;                                              
+[113] &quot;CONTRIBUTING&quot;                                            
+[114] &quot;WEAPONS POSSESSION/BOMBING&quot;                              
+[115] &quot;BRIBERY&quot;                                                 
+[116] &quot;THEFT, COIN MACHINE - GRAND ($950.01 &amp; OVER)&quot;            
+[117] &quot;GRAND THEFT / INSURANCE FRAUD&quot;                           
+[118] &quot;LYNCHING&quot;                                                
+[119] &quot;DISRUPT SCHOOL&quot;                                          
+[120] &quot;DISHONEST EMPLOYEE - PETTY THEFT&quot;                        
+[121] &quot;THEFT, COIN MACHINE - ATTEMPT&quot;                           
+[122] &quot;THEFT, COIN MACHINE - PETTY ($950 &amp; UNDER)&quot;              
+[123] &quot;REPLICA FIREARMS(SALE,DISPLAY,MANUFACTURE OR DISTRIBUTE)&quot;
+[124] &quot;DRUGS, TO A MINOR&quot;                                       
+[125] &quot;GRAND THEFT / AUTO REPAIR&quot;                               
+[126] &quot;DRUNK ROLL&quot;                                              
+[127] &quot;PICKPOCKET, ATTEMPT&quot;                                     
+[128] &quot;CHILD ABANDONMENT&quot;                                       
+[129] &quot;VEHICLE, STOLEN - OTHER (MOTORIZED SCOOTERS, BIKES, ETC)&quot;
+[130] &quot;TELEPHONE PROPERTY - DAMAGE&quot;                             
+[131] &quot;BEASTIALITY, CRIME AGAINST NATURE SEXUAL ASSLT WITH ANIM&quot;
+[132] &quot;BIGAMY&quot;                                                  
+[133] &quot;FAILURE TO DISPERSE&quot;                                     
+[134] &quot;FIREARMS EMERGENCY PROTECTIVE ORDER (FIREARMS EPO)&quot;      
+[135] &quot;INCEST (SEXUAL ACTS BETWEEN BLOOD RELATIVES)&quot;            
+[136] &quot;BLOCKING DOOR INDUCTION CENTER&quot;                          
+[137] &quot;INCITING A RIOT&quot;                                         
+[138] &quot;DISHONEST EMPLOYEE ATTEMPTED THEFT&quot;                      </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>unique_areas_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>$</span><span class='va'>`AREA NAME`</span><span class='op'>)</span></span>
+<span><span class='va'>unique_areas_list</span></span></code></pre>
+</div>
+<pre><code> [1] &quot;Southwest&quot;   &quot;Central&quot;     &quot;N Hollywood&quot; &quot;Mission&quot;    
+ [5] &quot;Devonshire&quot;  &quot;Northeast&quot;   &quot;Harbor&quot;      &quot;Van Nuys&quot;   
+ [9] &quot;West Valley&quot; &quot;West LA&quot;     &quot;Wilshire&quot;    &quot;Pacific&quot;    
+[13] &quot;Rampart&quot;     &quot;77th Street&quot; &quot;Hollenbeck&quot;  &quot;Southeast&quot;  
+[17] &quot;Hollywood&quot;   &quot;Newton&quot;      &quot;Foothill&quot;    &quot;Olympic&quot;    
+[21] &quot;Topanga&quot;    </code></pre>
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Crm Cd Desc"</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"crimedesc"</span></span>
+<span></span>
+<span><span class='va'>lacrimedata_sc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>lacrimedata</span>, <span class='va'>crimedesc</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
+<span>  <span class='st'>"RAPE, FORCIBLE"</span>, <span class='st'>"BATTERY WITH SEXUAL CONTACT"</span>,</span>
+<span>  <span class='st'>"LETTERS, LEWD  -  TELEPHONE CALLS, LEWD"</span>,</span>
+<span>  <span class='st'>"SEX,UNLAWFUL(INC MUTUAL CONSENT, PENETRATION W/ FRGN OBJ"</span>,</span>
+<span>  <span class='st'>"CRM AGNST CHLD (13 OR UNDER) (14-15 &amp; SUSP 10 YRS OLDER)"</span>, </span>
+<span>  <span class='st'>"SEXUAL PENETRATION W/FOREIGN OBJECT"</span>,</span>
+<span>  <span class='st'>"INDECENT EXPOSURE"</span> ,</span>
+<span>  <span class='st'>"ORAL COPULATION"</span>, </span>
+<span>  <span class='st'>"LEWD/LASCIVIOUS ACTS WITH CHILD"</span>, <span class='st'>"LEWD CONDUCT"</span>, </span>
+<span>  <span class='st'>"SODOMY/SEXUAL CONTACT B/W PENIS OF ONE PERS TO ANUS OTH"</span>, </span>
+<span>  <span class='st'>"PIMPING"</span>, <span class='st'>"PANDERING"</span>, <span class='st'>"RAPE, ATTEMPTED"</span>, </span>
+<span>  <span class='st'>"HUMAN TRAFFICKING - COMMERCIAL SEX ACTS"</span>, <span class='st'>"CHILD PORNOGRAPHY"</span>, </span>
+<span>  <span class='st'>"PEEPING TOM"</span>, <span class='st'>"BEASTIALITY, CRIME AGAINST NATURE SEXUAL ASSLT WITH ANIM"</span>, </span>
+<span>  <span class='st'>"INCEST (SEXUAL ACTS BETWEEN BLOOD RELATIVES)"</span></span>
+<span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>lacrimedata_sc</span></span></code></pre>
+</div>
+<pre><code># A tibble: 21,026 × 5
+    ...1 AREA  `AREA NAME` `Crm Cd` crimedesc                         
+   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;                             
+ 1     6 01    Central          121 RAPE, FORCIBLE                    
+ 2    30 01    Central          121 RAPE, FORCIBLE                    
+ 3    61 01    Central          860 BATTERY WITH SEXUAL CONTACT       
+ 4    71 08    West LA          956 LETTERS, LEWD  -  TELEPHONE CALLS…
+ 5    95 01    Central          860 BATTERY WITH SEXUAL CONTACT       
+ 6   110 13    Newton           121 RAPE, FORCIBLE                    
+ 7   170 08    West LA          956 LETTERS, LEWD  -  TELEPHONE CALLS…
+ 8   201 09    Van Nuys         810 SEX,UNLAWFUL(INC MUTUAL CONSENT, …
+ 9   202 10    West Valley      956 LETTERS, LEWD  -  TELEPHONE CALLS…
+10   221 18    Southeast        812 CRM AGNST CHLD (13 OR UNDER) (14-…
+# ℹ 21,016 more rows</code></pre>
+</div>
+<p>Here, we’ve cleaned up the data further. After changing the variable name of the crime classifier for easier access, we’ve slimmed the data frame down to only crimes of sexual violence, and assigned it to a new dataframe named <code>lacrimedata_sc</code>.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>visual1</span> <span class='op'>&lt;-</span> <span class='va'>lacrimedata_sc</span> <span class='op'>|&gt;</span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>`AREA NAME`</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>Count <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`AREA NAME`</span>, y <span class='op'>=</span> <span class='va'>Count</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"skyblue"</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Sub-Area of Los Angeles"</span>, </span>
+<span>       y <span class='op'>=</span> <span class='st'>"Number of Reported Cases of Sexual Violence"</span>,</span>
+<span>       title <span class='op'>=</span> <span class='st'>"Neighborhood to # of Reported Cases of Sexual Violence, LA, 2020-2023"</span><span class='op'>)</span></span>
+<span>  </span>
+<span></span>
+<span><span class='va'>visual1</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
+</div>
+<p>Here, we’ve created a preliminary barplot – it reflects the distribution of reported crimes of sexual violence by neighborhood in Los Angeles. For my final project, I will need to take this a few steps further (refining the data by a per capita measure, and further grouping neighborhoods by income) – but I am also working on finding the right auxiliary data for that. If possible, I will also try to control for various rates of underreporting (and other reporting practices) – if not, I will change the scope of the original project to only examine reported crimes (and acknowledge the limitations in that regard).</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
