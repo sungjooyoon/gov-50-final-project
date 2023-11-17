@@ -115,7 +115,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
   <!--/radix_placeholder_rmarkdown_metadata-->
   
   <script type="text/json" id="radix-resource-manifest">
-  {"type":"character","attributes":{},"value":["index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","lacrimedata.csv"]}
+  {"type":"character","attributes":{},"value":["2021lapdcensus - Yoon.csv","index_files/anchor-4.2.2/anchor.min.js","index_files/bowser-1.9.3/bowser.min.js","index_files/distill-2.2.21/template.v2.js","index_files/figure-html5/unnamed-chunk-3-1.png","index_files/figure-html5/unnamed-chunk-4-1.png","index_files/header-attrs-2.17/header-attrs.js","index_files/header-attrs-2.24/header-attrs.js","index_files/jquery-3.6.0/jquery-3.6.0.js","index_files/jquery-3.6.0/jquery-3.6.0.min.js","index_files/jquery-3.6.0/jquery-3.6.0.min.map","index_files/popper-2.6.0/popper.min.js","index_files/tippy-6.2.7/tippy-bundle.umd.min.js","index_files/tippy-6.2.7/tippy-light-border.css","index_files/tippy-6.2.7/tippy.css","index_files/tippy-6.2.7/tippy.umd.min.js","index_files/webcomponents-2.0.0/webcomponents.js","lacrimedata.csv"]}
   </script>
   <!--radix_placeholder_navigation_in_header-->
   <!--/radix_placeholder_navigation_in_header-->
@@ -1517,8 +1517,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 </div>
 
 <div class="d-article">
-<h2 id="project-thoughts">Project thoughts</h2>
-<p>Does the socioeconomic status of a Los Angeles neighborhood influence rates of reported sexual violence? In this study, I plan to examine the extent to which affluence alters the reported frequency of crimes such as rape or intimate assault. I hypothesize that said crimes are likely to occur at a higher-reported rate within lower-income communities, relative to higher-income communities; and that values will fall along in a scalar manner. Within lower-income neighborhoods, potential victims are seen as more vulnerable given their lack of restorative resources, and potential perpetrators may have higher rates of self-injurious, non-sexual stressors (such as drug usage, hostility towards the world, etc). My sample consists of raw crime data from the City of Los Angeles from 2020 to 2023. My unit of analysis is the frequency of a reported crime of sexual violence, and the explanatory variable of interest is a defined neighborhood inside of the city — particularly in relation to its socioeconomic standing. The variable is coded by the name of the neighborhood (e.g. “N Hollywood”), while the outcome variable is the count of a reported crime of sexual violence divided by the number of individuals in a given neighborhood. For instance, if there were “x” amount of crimes of sexual violence divided by “y” amount of people in “z” neighborhood, the value “x/y” would be the area-specific frequency that we are attempting to analyze. If I were to observe greater rates of crimes of sexual violence under lower-income areas, this would provide support for my hypothesis (in essence, regression of these rates with said areas ought to provide a positive correlation). Contrarily, if I were to observe similar or lower rates of crimes of sexual violence, this would provide evidence against my original theory.</p>
+<h2 id="project-thoughts-milestone-1">Project thoughts / Milestone 1</h2>
+<p>Does the socioeconomic status of a Los Angeles area/precinct influence rates of reported sexual violence? In this study, I plan to examine the extent to which affluence alters the reported frequency of crimes such as rape or intimate assault. I hypothesize that said crimes are likely to occur at a higher-reported rate within lower-income areas, relative to higher-income areas; and that values will fall along in a scalar manner. Within lower-income precincts, potential victims are seen as more vulnerable given their lack of restorative resources, and potential perpetrators may have higher rates of self-injurious, non-sexual stressors (such as drug usage, hostility towards the world, etc). My sample consists of raw crime data from the City of Los Angeles from 2020 to 2023. My unit of analysis is the frequency of a reported crime of sexual violence, and the explanatory variable of interest is a defined precinct inside of the city (of which there are 21) — particularly in relation to its socioeconomic standing. The variable is coded by the name of the precinct (e.g. “N Hollywood”), while the outcome variable is the count of a reported crime of sexual violence divided by the number of individuals in a given precinct. For instance, if there were “x” amount of crimes of sexual violence divided by “y” amount of people in “z” precinct, the value “x/y” would be the area-specific frequency that we are attempting to analyze. If I were to observe greater rates of crimes of sexual violence under lower-income areas, this would provide support for my hypothesis (in essence, regression of these rates with said areas ought to provide a positive correlation). Contrarily, if I were to observe similar or lower rates of crimes of sexual violence, this would provide evidence against my original theory.</p>
+<h2 id="milestone-2">Milestone 2</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://readr.tidyverse.org'>readr</a></span><span class='op'>)</span></span>
@@ -1530,158 +1531,9 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>unique_crimes_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>$</span><span class='va'>`Crm Cd Desc`</span><span class='op'>)</span></span>
-<span><span class='va'>unique_crimes_list</span></span></code></pre>
-</div>
-<pre><code>  [1] &quot;BATTERY - SIMPLE ASSAULT&quot;                                
-  [2] &quot;SEX OFFENDER REGISTRANT OUT OF COMPLIANCE&quot;               
-  [3] &quot;VANDALISM - MISDEAMEANOR ($399 OR UNDER)&quot;                
-  [4] &quot;VANDALISM - FELONY ($400 &amp; OVER, ALL CHURCH VANDALISMS)&quot; 
-  [5] &quot;RAPE, FORCIBLE&quot;                                          
-  [6] &quot;SHOPLIFTING - PETTY THEFT ($950 &amp; UNDER)&quot;                
-  [7] &quot;OTHER MISCELLANEOUS CRIME&quot;                               
-  [8] &quot;THEFT-GRAND ($950.01 &amp; OVER)EXCPT,GUNS,FOWL,LIVESTK,PROD&quot;
-  [9] &quot;BURGLARY FROM VEHICLE&quot;                                   
- [10] &quot;CRIMINAL THREATS - NO WEAPON DISPLAYED&quot;                  
- [11] &quot;ARSON&quot;                                                   
- [12] &quot;INTIMATE PARTNER - SIMPLE ASSAULT&quot;                       
- [13] &quot;THEFT PLAIN - PETTY ($950 &amp; UNDER)&quot;                      
- [14] &quot;THEFT OF IDENTITY&quot;                                       
- [15] &quot;ROBBERY&quot;                                                 
- [16] &quot;ASSAULT WITH DEADLY WEAPON, AGGRAVATED ASSAULT&quot;          
- [17] &quot;BURGLARY&quot;                                                
- [18] &quot;VEHICLE - STOLEN&quot;                                        
- [19] &quot;THEFT FROM MOTOR VEHICLE - PETTY ($950 &amp; UNDER)&quot;         
- [20] &quot;BRANDISH WEAPON&quot;                                         
- [21] &quot;INTIMATE PARTNER - AGGRAVATED ASSAULT&quot;                   
- [22] &quot;BUNCO, GRAND THEFT&quot;                                      
- [23] &quot;THEFT, PERSON&quot;                                           
- [24] &quot;BATTERY WITH SEXUAL CONTACT&quot;                             
- [25] &quot;BIKE - STOLEN&quot;                                           
- [26] &quot;BATTERY POLICE (SIMPLE)&quot;                                 
- [27] &quot;LETTERS, LEWD  -  TELEPHONE CALLS, LEWD&quot;                 
- [28] &quot;VIOLATION OF COURT ORDER&quot;                                
- [29] &quot;TRESPASSING&quot;                                             
- [30] &quot;THEFT FROM MOTOR VEHICLE - GRAND ($950.01 AND OVER)&quot;     
- [31] &quot;VIOLATION OF RESTRAINING ORDER&quot;                          
- [32] &quot;DISTURBING THE PEACE&quot;                                    
- [33] &quot;THEFT FROM MOTOR VEHICLE - ATTEMPT&quot;                      
- [34] &quot;THROWING OBJECT AT MOVING VEHICLE&quot;                       
- [35] &quot;EXTORTION&quot;                                               
- [36] &quot;SEX,UNLAWFUL(INC MUTUAL CONSENT, PENETRATION W/ FRGN OBJ&quot;
- [37] &quot;CHILD STEALING&quot;                                          
- [38] &quot;CRM AGNST CHLD (13 OR UNDER) (14-15 &amp; SUSP 10 YRS OLDER)&quot;
- [39] &quot;ATTEMPTED ROBBERY&quot;                                       
- [40] &quot;OTHER ASSAULT&quot;                                           
- [41] &quot;BOMB SCARE&quot;                                              
- [42] &quot;DOCUMENT FORGERY / STOLEN FELONY&quot;                        
- [43] &quot;SEXUAL PENETRATION W/FOREIGN OBJECT&quot;                     
- [44] &quot;SHOTS FIRED AT INHABITED DWELLING&quot;                       
- [45] &quot;BURGLARY, ATTEMPTED&quot;                                     
- [46] &quot;FAILURE TO YIELD&quot;                                        
- [47] &quot;INDECENT EXPOSURE&quot;                                       
- [48] &quot;ORAL COPULATION&quot;                                         
- [49] &quot;EMBEZZLEMENT, GRAND THEFT ($950.01 &amp; OVER)&quot;              
- [50] &quot;VIOLATION OF TEMPORARY RESTRAINING ORDER&quot;                
- [51] &quot;BUNCO, PETTY THEFT&quot;                                      
- [52] &quot;KIDNAPPING - GRAND ATTEMPT&quot;                              
- [53] &quot;SHOPLIFTING-GRAND THEFT ($950.01 &amp; OVER)&quot;                
- [54] &quot;RESISTING ARREST&quot;                                        
- [55] &quot;DISCHARGE FIREARMS/SHOTS FIRED&quot;                          
- [56] &quot;THREATENING PHONE CALLS/LETTERS&quot;                         
- [57] &quot;KIDNAPPING&quot;                                              
- [58] &quot;LEWD/LASCIVIOUS ACTS WITH CHILD&quot;                         
- [59] &quot;LEWD CONDUCT&quot;                                            
- [60] &quot;UNAUTHORIZED COMPUTER ACCESS&quot;                            
- [61] &quot;PURSE SNATCHING&quot;                                         
- [62] &quot;SODOMY/SEXUAL CONTACT B/W PENIS OF ONE PERS TO ANUS OTH&quot; 
- [63] &quot;CHILD NEGLECT (SEE 300 W.I.C.)&quot;                          
- [64] &quot;CONTEMPT OF COURT&quot;                                       
- [65] &quot;CHILD ANNOYING (17YRS &amp; UNDER)&quot;                          
- [66] &quot;BUNCO, ATTEMPT&quot;                                          
- [67] &quot;CHILD ABUSE (PHYSICAL) - SIMPLE ASSAULT&quot;                 
- [68] &quot;PIMPING&quot;                                                 
- [69] &quot;STALKING&quot;                                                
- [70] &quot;THEFT PLAIN - ATTEMPT&quot;                                   
- [71] &quot;RAPE, ATTEMPTED&quot;                                         
- [72] &quot;SHOPLIFTING - ATTEMPT&quot;                                   
- [73] &quot;THEFT FROM PERSON - ATTEMPT&quot;                             
- [74] &quot;VEHICLE - ATTEMPT STOLEN&quot;                                
- [75] &quot;FALSE IMPRISONMENT&quot;                                      
- [76] &quot;BURGLARY FROM VEHICLE, ATTEMPTED&quot;                        
- [77] &quot;PICKPOCKET&quot;                                              
- [78] &quot;EMBEZZLEMENT, PETTY THEFT ($950 &amp; UNDER)&quot;                
- [79] &quot;DEFRAUDING INNKEEPER/THEFT OF SERVICES, $950 &amp; UNDER&quot;    
- [80] &quot;COUNTERFEIT&quot;                                             
- [81] &quot;CREDIT CARDS, FRAUD USE ($950 &amp; UNDER&quot;                   
- [82] &quot;SHOTS FIRED AT MOVING VEHICLE, TRAIN OR AIRCRAFT&quot;        
- [83] &quot;CRIMINAL HOMICIDE&quot;                                       
- [84] &quot;DOCUMENT WORTHLESS ($200 &amp; UNDER)&quot;                       
- [85] &quot;PROWLER&quot;                                                 
- [86] &quot;DEFRAUDING INNKEEPER/THEFT OF SERVICES, OVER $950.01&quot;    
- [87] &quot;ASSAULT WITH DEADLY WEAPON ON POLICE OFFICER&quot;            
- [88] &quot;DISHONEST EMPLOYEE - GRAND THEFT&quot;                        
- [89] &quot;HUMAN TRAFFICKING - COMMERCIAL SEX ACTS&quot;                 
- [90] &quot;CHILD PORNOGRAPHY&quot;                                       
- [91] &quot;PEEPING TOM&quot;                                             
- [92] &quot;BATTERY ON A FIREFIGHTER&quot;                                
- [93] &quot;TILL TAP - PETTY ($950 &amp; UNDER)&quot;                         
- [94] &quot;CHILD ABUSE (PHYSICAL) - AGGRAVATED ASSAULT&quot;             
- [95] &quot;TILL TAP - GRAND THEFT ($950.01 &amp; OVER)&quot;                 
- [96] &quot;HUMAN TRAFFICKING - INVOLUNTARY SERVITUDE&quot;               
- [97] &quot;FIREARMS RESTRAINING ORDER (FIREARMS RO)&quot;                
- [98] &quot;DRIVING WITHOUT OWNER CONSENT (DWOC)&quot;                    
- [99] &quot;DOCUMENT WORTHLESS ($200.01 &amp; OVER)&quot;                     
-[100] &quot;PANDERING&quot;                                               
-[101] &quot;CRUELTY TO ANIMALS&quot;                                      
-[102] &quot;CREDIT CARDS, FRAUD USE ($950.01 &amp; OVER)&quot;                
-[103] &quot;LYNCHING - ATTEMPTED&quot;                                    
-[104] &quot;ILLEGAL DUMPING&quot;                                         
-[105] &quot;PETTY THEFT - AUTO REPAIR&quot;                               
-[106] &quot;MANSLAUGHTER, NEGLIGENT&quot;                                 
-[107] &quot;BOAT - STOLEN&quot;                                           
-[108] &quot;RECKLESS DRIVING&quot;                                        
-[109] &quot;PURSE SNATCHING - ATTEMPT&quot;                               
-[110] &quot;FALSE POLICE REPORT&quot;                                     
-[111] &quot;BIKE - ATTEMPTED STOLEN&quot;                                 
-[112] &quot;CONSPIRACY&quot;                                              
-[113] &quot;CONTRIBUTING&quot;                                            
-[114] &quot;WEAPONS POSSESSION/BOMBING&quot;                              
-[115] &quot;BRIBERY&quot;                                                 
-[116] &quot;THEFT, COIN MACHINE - GRAND ($950.01 &amp; OVER)&quot;            
-[117] &quot;GRAND THEFT / INSURANCE FRAUD&quot;                           
-[118] &quot;LYNCHING&quot;                                                
-[119] &quot;DISRUPT SCHOOL&quot;                                          
-[120] &quot;DISHONEST EMPLOYEE - PETTY THEFT&quot;                        
-[121] &quot;THEFT, COIN MACHINE - ATTEMPT&quot;                           
-[122] &quot;THEFT, COIN MACHINE - PETTY ($950 &amp; UNDER)&quot;              
-[123] &quot;REPLICA FIREARMS(SALE,DISPLAY,MANUFACTURE OR DISTRIBUTE)&quot;
-[124] &quot;DRUGS, TO A MINOR&quot;                                       
-[125] &quot;GRAND THEFT / AUTO REPAIR&quot;                               
-[126] &quot;DRUNK ROLL&quot;                                              
-[127] &quot;PICKPOCKET, ATTEMPT&quot;                                     
-[128] &quot;CHILD ABANDONMENT&quot;                                       
-[129] &quot;VEHICLE, STOLEN - OTHER (MOTORIZED SCOOTERS, BIKES, ETC)&quot;
-[130] &quot;TELEPHONE PROPERTY - DAMAGE&quot;                             
-[131] &quot;BEASTIALITY, CRIME AGAINST NATURE SEXUAL ASSLT WITH ANIM&quot;
-[132] &quot;BIGAMY&quot;                                                  
-[133] &quot;FAILURE TO DISPERSE&quot;                                     
-[134] &quot;FIREARMS EMERGENCY PROTECTIVE ORDER (FIREARMS EPO)&quot;      
-[135] &quot;INCEST (SEXUAL ACTS BETWEEN BLOOD RELATIVES)&quot;            
-[136] &quot;BLOCKING DOOR INDUCTION CENTER&quot;                          
-[137] &quot;INCITING A RIOT&quot;                                         
-[138] &quot;DISHONEST EMPLOYEE ATTEMPTED THEFT&quot;                      </code></pre>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>unique_areas_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>$</span><span class='va'>`AREA NAME`</span><span class='op'>)</span></span>
-<span><span class='va'>unique_areas_list</span></span></code></pre>
-</div>
-<pre><code> [1] &quot;Southwest&quot;   &quot;Central&quot;     &quot;N Hollywood&quot; &quot;Mission&quot;    
- [5] &quot;Devonshire&quot;  &quot;Northeast&quot;   &quot;Harbor&quot;      &quot;Van Nuys&quot;   
- [9] &quot;West Valley&quot; &quot;West LA&quot;     &quot;Wilshire&quot;    &quot;Pacific&quot;    
-[13] &quot;Rampart&quot;     &quot;77th Street&quot; &quot;Hollenbeck&quot;  &quot;Southeast&quot;  
-[17] &quot;Hollywood&quot;   &quot;Newton&quot;      &quot;Foothill&quot;    &quot;Olympic&quot;    
-[21] &quot;Topanga&quot;    </code></pre>
-<div class="sourceCode">
-<pre class="sourceCode r"><code class="sourceCode r"><span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Crm Cd Desc"</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"crimedesc"</span></span>
+<span><span class='va'>unique_areas_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/unique.html'>unique</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>$</span><span class='va'>`AREA NAME`</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>)</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>lacrimedata</span><span class='op'>)</span> <span class='op'>==</span> <span class='st'>"Crm Cd Desc"</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"crimedesc"</span></span>
 <span></span>
 <span><span class='va'>lacrimedata_sc</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span><span class='op'>(</span><span class='va'>lacrimedata</span>, <span class='va'>crimedesc</span> <span class='op'><a href='https://rdrr.io/r/base/match.html'>%in%</a></span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span></span>
 <span>  <span class='st'>"RAPE, FORCIBLE"</span>, <span class='st'>"BATTERY WITH SEXUAL CONTACT"</span>,</span>
@@ -1717,6 +1569,7 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 # ℹ 21,016 more rows</code></pre>
 </div>
 <p>Here, we’ve cleaned up the data further. After changing the variable name of the crime classifier for easier access, we’ve slimmed the data frame down to only crimes of sexual violence, and assigned it to a new dataframe named <code>lacrimedata_sc</code>.</p>
+<h2 id="milestone-3">Milestone 3</h2>
 <div class="layout-chunk" data-layout="l-body">
 <div class="sourceCode">
 <pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>visual1</span> <span class='op'>&lt;-</span> <span class='va'>lacrimedata_sc</span> <span class='op'>|&gt;</span> </span>
@@ -1724,17 +1577,96 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>Count <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>`AREA NAME`</span>, y <span class='op'>=</span> <span class='va'>Count</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> </span>
 <span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"skyblue"</span><span class='op'>)</span> <span class='op'>+</span> </span>
-<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Sub-Area of Los Angeles"</span>, </span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='st'>"Area/Precinct of Los Angeles"</span>, </span>
 <span>       y <span class='op'>=</span> <span class='st'>"Number of Reported Cases of Sexual Violence"</span>,</span>
-<span>       title <span class='op'>=</span> <span class='st'>"Neighborhood to # of Reported Cases of Sexual Violence, LA, 2020-2023"</span><span class='op'>)</span></span>
-<span>  </span>
+<span>       title <span class='op'>=</span> <span class='st'>"Precinct to # of Reported Cases of Sexual Violence, LA, 2020-2023"</span><span class='op'>)</span></span>
 <span></span>
 <span><span class='va'>visual1</span></span></code></pre>
 </div>
 <p><img src="index_files/figure-html5/unnamed-chunk-3-1.png" width="624" /></p>
 </div>
-<p>Here, we’ve created a preliminary barplot – it reflects the distribution of reported crimes of sexual violence by neighborhood in Los Angeles. For my final project, I will need to take this a few steps further (refining the data by a per capita measure, and further grouping neighborhoods by income) – but I am also working on finding the right auxiliary data for that. If possible, I will also try to control for various rates of underreporting (and other reporting practices) – if not, I will change the scope of the original project to only examine reported crimes (and acknowledge the limitations in that regard).</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
+<p>Here, we’ve created a preliminary barplot – it reflects the distribution of reported crimes of sexual violence by precinct in Los Angeles. For my final project, I will need to take this a few steps further (refining the data by a per capita measure, and further grouping precincts by income) – but I am also working on finding the right auxiliary data for that. If possible, I will also try to control for various rates of underreporting (and other reporting practices) – if not, I will change the scope of the original project to only examine reported crimes (and acknowledge the limitations in that regard).</p>
+<h2 id="milestone-4">Milestone 4</h2>
+<p>For final project milestone #4, we can then refine this data both by a per capita measure, and by grouping neighborhoods by income category. Through dimensional analysis, we can get the frequency of instances of reported sexual violence grouped into low, middle, and high income groups (defined by whether or not a neighborhood reports an average household income below, around, or above the average income line). How can we do this?</p>
+<p>Methodologically, there are 21 precincts representing ~100 Los Angeles neighborhoods (as defined by LA City Council). <code>AREA NAME</code> under <code>lacrimedata_sc</code> represents these precincts, but we need auxiliary data to figure out the average income and population for each of them. The history of zoning practices in Los Angeles makes this fairly convenient – sociological consensus is that these precincts were drawn primarily based on historic crime rates/income levels and demographic considerations. Moreover, they have not been redrawn in the duration of our data. Thus, said precincts serve as effective conduits for socioeconomic status of a sub-area (for example, the Olympic precinct consists only of Koreatown and Arlington Heights, both low-income neighborhoods with predominantly Korean and Mexican Americans; on the contrary, the West LA precinct consists of white-dominated, high-income neighborhoods such as Bel Air, Beverly Crest, Brentwood, Sawtelle, Santa Monica, etc).</p>
+<p>Two sets of auxiliary data help us here. The first is the LAPD organizational map, which tells us directly which neighborhoods are under which precincts. We can pair this with the second set: US Census data of income and population. Luckily, that data exists separately for many of the 100+ neighborhoods (with adjusted estimates for 2021, an approximate midpoint of our data). However, for those neighborhoods that do not have this data, a workaround is detailed further below. By cross-referencing these two sets, we are able to find how many people are in each precinct, and what the average income is within a given precinct.</p>
+<p>One benchmark of reference is also useful here – the United States Department of Housing and Urban Development’s “Income Limits Documentation System”, which informs us what the cut-off is for a ‘low-income’ classification (specific to the Los Angeles-Long Beach-Glendale, CA HUD Metro FMR Area). In 2021, they considered a low-income limit at 80% of the area’s median household income (80,000 US dollars), which is &lt;= 64,000 US dollars. We can invert this to create a robust classification system, where a middle-income neighborhood is any neighborhood within &lt;20% of the median income (64,000 &lt; 80,000 &lt; 96,000), and high-income to be at 120%+ of the area’s median income (&gt; 96,000 USD).</p>
+<p>Then, we can plot the relative frequency of reported crimes of sexual violence, categorized by a precinct’s socioeconomic classification, with respect to the amount of people. The formula for this is as follows:</p>
+<p><span class="math display">\[
+\text{Freq. of Rept. Sexual Viol. Crimes by Precinct Type } i =
+\begin{cases}
+    \frac{c_i}{p_i} &amp; \text{if classification = &quot;low income&quot;} \\
+    \frac{c_i}{p_i} &amp; \text{if classification = &quot;middle income&quot;} \\
+    \frac{c_i}{p_i} &amp; \text{if classification = &quot;high income&quot;}
+\end{cases}
+\]</span></p>
+<p>Where <span class="math inline">\(c_i\)</span> represents the number of reported crimes of sexual violence, <span class="math inline">\(p_i\)</span> represents the number of people in a given precinct, and <span class="math inline">\(\text{classification}\)</span> is a categorical variable of class divisions.</p>
+<p>Before we get into visualization, here are a few side notes on the data to be employed.</p>
+<p>It took about 5 hours, but I scraped the LAPD organizational chart to find which communities were serviced by which precincts. I also scraped adjusted US Census data on median income and population from City-Data repositories, and scraped real estate market data from Niche and Weichert (two major analysts in the industry) to fill the gaps for communities that may not have had this data available for various reasons.</p>
+<p>This data was then organized into a .csv file by me. The first column is the name of the precinct as coded in <code>lacrimedata_sc</code>. Columns 2 through 21 represent the populations of given communities that are serviced by a precinct, coded by the header <code>NxP</code>, with <code>x</code> being an integer (incremental by +1) that represents the ordinal position of the community on the LAPD organizational chart. For example, if “Arlington Heights” is the first community listed on the chart to be serviced by the <code>Olympic</code> precinct, it will show up at the intersection of <code>Olympic</code> and <code>N1P</code>. Or, if “Chesterfield Square” is the second community listed on the chart to be serviced by the <code>77th Street</code> precinct, it will show up at the intersection of <code>77th Street</code> and <code>N2P</code>. Columns 22 through 41 represent the median income of given sub-communities that are serviced by a precinct, coded by the header <code>NxI</code>, with <code>x</code> representing the same value as it did in <code>NxP</code>.</p>
+<p>This data thus gives us values for all of the populations and average incomes of a given precinct’s communities. I plan on mutating this to create our visualizations, which I will explain beneath said graphics.</p>
+<p>One caveat are all of the “0” values within the data. There are 6 cases within which I chose to employ a placeholder.</p>
+<ol type="1">
+<li><p>In pure business districts without substantial inhabiting populations (e.g. Ventura Business District, Terminal Island) or recreational areas without substantial residential zoning (South Park-51st &amp; Menlo, Knollwood Country Club, Country Club Park, Park La Brea, and so on).</p></li>
+<li><p>Any unincorporated community without an inhabiting population.</p></li>
+<li><p>Any community listed on the LAPD organizational chart that is already accounted for by a larger community in our cross-referenced geographical data. The list is as follows: West Van Nuys is simply considered Van Nuys, Oakwood is a part of Venice, Hillside Village/Sierra Vista are a part of El Sereno, Baldwin Village/Vista + Crenshaw are a part of Baldwin Hills, Virgil Village is a part of Hollywood, Lafayette Park is part of Westlake, La Tuna Canyon is a part of Sunland, Franklin Hills/Garvanza is a part of Los Feliz, Cahuenga Pass is a part of North Hollywood, Toluca Woods/West Toluca are a part of Toluca Lake, Universal City is a part of Studio City, Argyle/Spaulding Square/Sunset Strip/Vine are a part of Hollywood, Hobart is a part of various East Los Angeles communities, Mount Olympus is a part of the Hollywood Hills, Brookside Park/Wilshire Center/Wilshire Vista is a part of Greater Wilshire, Miracle Mile is a part of Mid-Wilshire, Olympic Park/Wellington Square are a part of Mid-City, and South Carthay is a part of Carthay Circle.</p></li>
+<li><p>Any community that no longer exists (Aliso Village in the Hollenbeck precinct, and Village Green in Baldwin Hills).</p></li>
+<li><p>Any community that is a part of a public housing project, because they are considered independent communities by the organizational chart but are not statistically independent (they would be double-counted otherwise). These are Avalon Gardens inside of Green Meadows, Avalon Gardens/Hacienda Village/Imperial Courts/Jordan Downs/Parkside Manor/Gonzaque Village inside Watts, Blythe Street near North Mission Hills, Estrada Court near Aliso Village, Ramona Gardens inside Boyle Heights, and Rose Hill Courts in El Sereno.</p></li>
+<li><p>Any neighborhood whose name is represented twice for reference purposes (Grammercy Park).</p></li>
+</ol>
+<p>One final side note is that in the instance that a neighborhood is served by multiple precincts, it was classified in the precinct within which the supermajority of the geographic plane lies.</p>
+<div class="layout-chunk" data-layout="l-body">
+<div class="sourceCode">
+<pre class="sourceCode r"><code class="sourceCode r"><span><span class='va'>auxiliarydata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://readr.tidyverse.org/reference/read_delim.html'>read_csv</a></span><span class='op'>(</span><span class='st'>"2021lapdcensus - Yoon.csv"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>auxiliarydata</span> <span class='op'>&lt;-</span> <span class='va'>auxiliarydata</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>avg_precinct_income <span class='op'>=</span> <span class='op'>(</span><span class='op'>(</span><span class='va'>`N1P`</span> <span class='op'>*</span> <span class='va'>`N1I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N2P`</span> <span class='op'>*</span> <span class='va'>`N2I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N3P`</span> <span class='op'>*</span> <span class='va'>`N3I`</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>                                  <span class='op'>(</span><span class='va'>`N4P`</span> <span class='op'>*</span> <span class='va'>`N4I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N5P`</span> <span class='op'>*</span> <span class='va'>`N5I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N6P`</span> <span class='op'>*</span> <span class='va'>`N6I`</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>                                  <span class='op'>(</span><span class='va'>`N7P`</span> <span class='op'>*</span> <span class='va'>`N7I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N8P`</span> <span class='op'>*</span> <span class='va'>`N8I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N9P`</span> <span class='op'>*</span> <span class='va'>`N9I`</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>                                  <span class='op'>(</span><span class='va'>`N10P`</span> <span class='op'>*</span> <span class='va'>`N10I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N11P`</span> <span class='op'>*</span> <span class='va'>`N11I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N12P`</span> <span class='op'>*</span> <span class='va'>`N12I`</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>                                  <span class='op'>(</span><span class='va'>`N13P`</span> <span class='op'>*</span> <span class='va'>`N13I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N14P`</span> <span class='op'>*</span> <span class='va'>`N14I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N15P`</span> <span class='op'>*</span> <span class='va'>`N15I`</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>                                  <span class='op'>(</span><span class='va'>`N16P`</span> <span class='op'>*</span> <span class='va'>`N16I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N17P`</span> <span class='op'>*</span> <span class='va'>`N17I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N18P`</span> <span class='op'>*</span> <span class='va'>`N18I`</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span>                                  <span class='op'>(</span><span class='va'>`N19P`</span> <span class='op'>*</span> <span class='va'>`N19I`</span><span class='op'>)</span> <span class='op'>+</span> <span class='op'>(</span><span class='va'>`N20P`</span> <span class='op'>*</span> <span class='va'>`N20I`</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>/</span> <span class='va'>`precinct_pop`</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>auxiliarydata</span> <span class='op'>&lt;-</span> <span class='va'>auxiliarydata</span> <span class='op'>|&gt;</span> </span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>precinct_class_grouping <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/case_when.html'>case_when</a></span><span class='op'>(</span></span>
+<span>    <span class='va'>avg_precinct_income</span> <span class='op'>&lt;=</span> <span class='fl'>64000</span> <span class='op'>~</span> <span class='st'>"Low Income"</span>,</span>
+<span>    <span class='va'>avg_precinct_income</span> <span class='op'>&gt;</span> <span class='fl'>64000</span> <span class='op'>&amp;</span> <span class='va'>avg_precinct_income</span> <span class='op'>&lt;</span> <span class='fl'>96000</span> <span class='op'>~</span> <span class='st'>"Middle Income"</span>,</span>
+<span>    <span class='va'>avg_precinct_income</span> <span class='op'>&gt;</span> <span class='fl'>96000</span> <span class='op'>~</span> <span class='st'>"High Income"</span></span>
+<span>  <span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>incidents_by_precinct</span> <span class='op'>&lt;-</span> <span class='va'>lacrimedata_sc</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>`AREA NAME`</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>count <span class='op'>=</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='va'>incidents_by_precinct</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>colnames</a></span><span class='op'>(</span><span class='va'>incidents_by_precinct</span><span class='op'>)</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"Precinct"</span></span>
+<span><span class='va'>auxiliarydata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate-joins.html'>left_join</a></span><span class='op'>(</span><span class='va'>auxiliarydata</span>, <span class='va'>incidents_by_precinct</span>, by <span class='op'>=</span> <span class='st'>"Precinct"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>auxiliarydata</span> <span class='op'>&lt;-</span> <span class='va'>auxiliarydata</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>freq_per_capita <span class='op'>=</span> <span class='va'>count</span> <span class='op'>/</span> <span class='va'>precinct_pop</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>visualizer_df</span> <span class='op'>&lt;-</span> <span class='va'>auxiliarydata</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>precinct_class_grouping</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/summarise.html'>summarize</a></span><span class='op'>(</span>crimes_sum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>count</span><span class='op'>)</span>,</span>
+<span>            pop_sum <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>precinct_pop</span><span class='op'>)</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>secondvisualizer</span> <span class='op'>&lt;-</span> <span class='va'>visualizer_df</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/group_by.html'>group_by</a></span><span class='op'>(</span><span class='va'>precinct_class_grouping</span><span class='op'>)</span> <span class='op'>|&gt;</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x <span class='op'>=</span> <span class='va'>precinct_class_grouping</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_col</a></span><span class='op'>(</span>mapping <span class='op'>=</span> <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>y <span class='op'>=</span> <span class='va'>crimes_sum</span> <span class='op'>/</span> <span class='va'>pop_sum</span><span class='op'>)</span>,</span>
+<span>           fill <span class='op'>=</span> <span class='st'>"skyblue"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/labs.html'>labs</a></span><span class='op'>(</span>title <span class='op'>=</span> <span class='st'>"Rept. Crimes of Sexual Violence per Capita by Precinct Income"</span>,</span>
+<span>       x <span class='op'>=</span> <span class='st'>"Precinct Income Level"</span>,</span>
+<span>       y <span class='op'>=</span> <span class='st'>"Rept. Crimes of Sexual Violence per Capita"</span>,</span>
+<span>       caption <span class='op'>=</span> <span class='st'>"Sources: US Census/City-Data, LAPD Organizational Chart, LA Crime Data 2020-23, Niche, Weichert"</span><span class='op'>)</span></span>
+<span></span>
+<span><span class='va'>secondvisualizer</span></span></code></pre>
+</div>
+<p><img src="index_files/figure-html5/unnamed-chunk-4-1.png" width="624" /></p>
+</div>
+<p>Here (after compiling precinct demographics), we have now granulated the data per capita, categorized by income group. And we can notice that ‘reported crimes of sexual violence per capita’ are demonstrably higher in Los Angeles precincts that are low-income. Middle and high income precincts are closer to each other, but high income precincts actually report higher levels of said crimes. Going back to the original question, it does seem like income category has a bearing on the frequency of these reported crimes. Thus, we are one step closer to our conclusion confirming our presumption. However, it is important to note that there is more to be done. While this is a preliminary answer, further visualizations that will A) granulate the types of reported sexual violence, B) consider limitations, C) analyze confounding factors, and D) represent the data in other forms and statistical parameters are all yet to come.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r distill-force-highlighting-css"><code class="sourceCode r"></code></pre></div>
 <!--radix_placeholder_article_footer-->
 <!--/radix_placeholder_article_footer-->
 </div>
@@ -1742,6 +1674,15 @@ code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
 <div class="d-appendix">
 </div>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 
 <!--radix_placeholder_site_after_body-->
 <!--/radix_placeholder_site_after_body-->
