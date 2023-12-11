@@ -1,7 +1,7 @@
 ---
-title: "Reported Sexual Violence by Precinct Income in the City of Los Angeles"
+title: "Reported Sexual Violence by Socioeconomic Status of a Precinct -- City of Los Angeles"
 author: "Sungjoo Yoon"
-description: "The following report analyzes the influence of socioeconomic status on reported sexual violence within my hometown. It serves to bridge a gap in existing scholarship and aid law enforcement in allocating resources efficiently to prevent said crimes. It also serves as my final project for Gov 50!"
+description: "The following report analyzes the influence of socioeconomic status on reported sexual violence within my hometown. It serves to bridge a gap in existing scholarship and aid law enforcement in allocating resources efficiently to prevent said crimes. **It also serves as my final project for Gov 50!**"
 output:
   distill::distill_article:
     self_contained: false
@@ -9,15 +9,19 @@ output:
 
 ## Introduction
 
-Does the socioeconomic status of a Los Angeles area/precinct influence rates of reported sexual violence? In this study, I plan to examine the extent to which affluence alters the reported frequency of crimes such as rape or intimate assault. I hypothesize that said crimes are likely to occur at a higher-reported rate within lower-income areas, relative to higher-income areas; and that values will fall along in a scalar manner. Within lower-income precincts, potential victims are seen as more vulnerable given their lack of restorative resources, and potential perpetrators may have higher rates of self-injurious, non-sexual stressors (such as drug usage, hostility towards the world, etc). My sample consists of raw crime data from the City of Los Angeles from 2020 to 2023, paired with a multitude of geographic, economic, and organizational sources (detailed under `Data and Design`). 
+**TW: Non-graphic mentions of S.A.**
 
-My unit of analysis is the frequency of a reported crime of sexual violence, and the explanatory variable of interest is a defined precinct inside of the city (of which there are 21) — particularly in relation to its socioeconomic standing. The variable is coded by the name of the precinct (e.g. “N Hollywood”), while the outcome variable is the count of a reported crime of sexual violence divided by the number of individuals in a given precinct. For instance, if there were “x” amount of crimes of sexual violence divided by “y” amount of people in “z” precinct, the value “x/y” would be the area-specific frequency that we are attempting to analyze. If I were to observe greater rates of crimes of sexual violence under lower-income areas, this would provide support for my hypothesis (in essence, regression of these rates with said areas ought to provide a positive correlation). Contrarily, if I were to observe similar or lower rates of crimes of sexual violence, this would provide evidence against my original theory. Summarily -- I think this data is interesting for two primary reasons. First, no analysis of its type has been done in Los Angeles, and bridging this gap in scholarship seems worthwhile. Second, analysis of this type helps law enforcement in LA allocate appropriate resources to preventing these types of crimes, vis-a-vis describing where they are most likely to occur (i.e. predictive policing). Further analysis will help us reach those aims.
+Does the socioeconomic status of a Los Angeles area/precinct influence rates of reported sexual violence? In this study, I plan to examine the extent to which affluence alters the reported frequency of crimes such as rape or intimate assault. I hypothesize that said crimes are likely to occur at a higher-reported rate within lower-income areas, relative to higher-income areas; and that values will fall along in a scalar manner. Within lower-income precincts, potential victims are seen as more vulnerable given their lack of restorative resources, and potential perpetrators may have higher rates of self-injurious, non-sexual stressors (such as drug usage, hostility towards the world, etc). My sample consists of raw crime data from the City of Los Angeles from 2020 to 2023, paired with a multitude of geographic, economic, and organizational sources (detailed under `Data/Design`). 
+
+My unit of analysis is the frequency of a reported crime of sexual violence, and the explanatory variable of interest is the socioeconomic standing of defined precincts (of which there are 21) inside of the city. More specifically, the explanatory variable is coded by the aggregation of each precinct's class standing, while the outcome variable is the count of a reported crime of sexual violence divided by the number of individuals in a given precinct. For instance, if there were “x” amount of crimes of sexual violence divided by “y” amount of people in “z” precinct, the value “x/y” would be the precinct-specific frequency that we are attempting to aggregate by class and analyze. If I were to observe greater rates of crimes of sexual violence under lower-income areas, this would provide support for my hypothesis (in essence, regression of these rates with said areas ought to provide a positive correlation). Contrarily, if I were to observe similar or lower rates of crimes of sexual violence, this would provide evidence against my original theory. Summarily -- I think this data is interesting for two primary reasons. First, no analysis of its type has been done in Los Angeles, and bridging this gap in scholarship seems worthwhile. Second, analysis of this type helps law enforcement in LA allocate appropriate resources to preventing these types of crimes, vis-a-vis describing where they are most likely to occur (i.e. predictive policing). Further analysis will help us reach those aims.
 
 ## Data and Design
 
-This study is a cross-section observational study. This is because it utilizes a short, fixed period of time (2020-2023) and does not experiment, but rather observes existing data. Said data comes from a multitude of sources joined together. The first, and primary data source, is the United States Federal Government's open data site. Specifically, we are using the non-federal data set "Crime Data from 2020 to Present" for the City of Los Angeles, under a U.S. Government Works license. It can be found at (https://catalog.data.gov/dataset/crime-data-from-2020-to-present). Below — after manually removing columns irrelevant to our analysis — we've cleaned up the data further. After changing the variable name of the crime classifier for easier access, we've slimmed the data frame down to only crimes of sexual violence (by pulling all category types and filtering to said crimes), and assigned it to a new dataframe named `lacrimedata_sc`. 
+This study is a cross-section observational study. This is because it utilizes a short, fixed period of time (2020-2023) and does not experiment, but rather observes trends in existing historical data. Said data comes from a multitude of sources joined together. The first, and primary data source, is the United States Federal Government's open data site. Specifically, we are using the non-federal data set "Crime Data from 2020 to Present" for the City of Los Angeles, under a U.S. Government Works license. It can be found at (https://catalog.data.gov/dataset/crime-data-from-2020-to-present). Below — after manually removing columns irrelevant to our analysis — we've cleaned up the data further. After changing the variable name of the crime classifier for easier access, we've slimmed the data frame down to only crimes of sexual violence (by pulling all category types and filtering to said crimes), and assigned it to a new dataframe named `lacrimedata_sc`. 
 
 ```{r}
+## Loading packages, initializing/slimming primary data source
+
 library(readr)
 library(dplyr)
 library(ggplot2)
@@ -46,33 +50,36 @@ lacrimedata_sc <- filter(lacrimedata, crimedesc %in% c(
 ))
 ```
 
-From then on, a multitude of secondary data sources aid us. The first is the LAPD organizational map (https://www.lapdonline.org/lapd-organization-chart/), which tells us directly which neighborhoods are under which precincts. We can pair this with the second set: US Census data of income and population, from City-Data repositories (https://www.city-data.com/). Luckily, that data exists separately for many of the 100+ neighborhoods (with adjusted estimates for 2021, an approximate midpoint of our data). However, for those neighborhoods that do not have this data, I scraped real estate market data from Niche and Weichert (two major analysts in the industry) to fill the gaps. By cross-referencing these two sets, we are able to find how many people are in each precinct, and what the average income is within a given precinct. We then `left_join` it to the primary source to have a robust repository that can take into consideration crime data and socioeconomic data (by geography). 
+From then on, a multitude of secondary data sources aid us. The first is the LAPD organizational map (https://www.lapdonline.org/lapd-organization-chart/), which tells us directly which neighborhoods are under which precincts. We can pair this with the second set: US Census data of income and population, from City-Data repositories (https://www.city-data.com/). Luckily, that data exists separately for many of the 100+ neighborhoods (with adjusted estimates for 2021, an approximate midpoint of our data). However, for those neighborhoods that do not have this data, I scraped real estate market data from Niche and Weichert (two major analysts in the industry) to fill the gaps. By cross-referencing these two sets, we are able to find how many people are in each precinct, and what the average income is within a given precinct. We then `left_join` it to the primary source to have a robust repository that can take into consideration both crime data and socioeconomic data (by geography). 
 
 One benchmark of reference data is also useful here -- the United States Department of Housing and Urban Development's "Income Limits Documentation System", which informs us what the cut-off is for a 'low-income' classification (specific to the Los Angeles-Long Beach-Glendale, CA HUD Metro FMR Area). This is found at: (https://www.huduser.gov/portal/datasets/il.html). In 2021, they considered a low-income limit at 80% of the area's median household income (80,000 US dollars), which is <= 64,000 US dollars. We can invert this to create a robust classification system, where a middle-income neighborhood is any neighborhood within <20% of the median income (64,000 < 80,000 < 96,000), and high-income to be at 120%+ of the area's median income (> 96,000 USD). 
 
-<sup style="font-size: 75%;">A few side notes on the secondary data, with respect to how to read it. Skip this section if you don't care for the super-specific details of how the synthesized data is coded.</sup>
+<sup style="font-size: 75%;">A few side notes on the secondary data, with respect to how to read it. **Skip this section if you don't care for the super-specific details of how the synthesized data is coded.**</sup>
 
 <sup style="font-size: 75%;">The two secondary data sets were organized into a .csv file by me. The first column is the name of the precinct as coded in `lacrimedata_sc`. Columns 2 through 21 represent the populations of given communities that are serviced by a precinct, coded by the header `NxP`, with `x` being an integer (incremental by +1) that represents the ordinal position of the community on the LAPD organizational chart. For example, if "Arlington Heights" is the first community listed on the chart to be serviced by the `Olympic` precinct, it will show up at the intersection of `Olympic` and `N1P`. Or, if "Chesterfield Square" is the second community listed on the chart to be serviced by the `77th Street` precinct, it will show up at the intersection of `77th Street` and `N2P`. Columns 22 through 41 represent the median income of given sub-communities that are serviced by a precinct, coded by the header `NxI`, with `x` representing the same value as it did in `NxP`. This combination of data thus gives us values for all of the populations and average incomes of a given precinct's communities.</sup>
 
-<sup style="font-size: 75%;">Additionally — in the instance that a neighborhood is served by multiple precincts, it was classified in the precinct within which the supermajority of the geographic plane lies.</sup>
+<sup style="font-size: 75%;">Additionally — in the instance that a neighborhood is served by multiple precincts, it was classified **in the precinct within which the supermajority of the geographic plane** lies.</sup>
 
-<sup style="font-size: 75%;">One caveat are all of the "0" placeholder values within the data. There are 6 cases within which I chose to employ a placeholder (which functionally removes a given listed neighborhood from the analysis).</sup>
+<sup style="font-size: 75%;">One caveat are all of the "0" placeholder values within the data. There are **6** cases within which I chose to employ a placeholder (which functionally removes a given listed neighborhood from the analysis).</sup>
 
-<sup style="font-size: 75%;">1) In pure business districts without substantial inhabiting populations (e.g. Ventura Business District, Terminal Island) or recreational areas without substantial residential zoning (South Park-51st & Menlo, Knollwood Country Club, Country Club Park, Park La Brea, and so on). We cannot analyze socioeconomic composition when no one lives there.</sup>
+<sup style="font-size: 75%;">1) In pure business districts without substantial inhabiting populations (e.g. Ventura Business District, Terminal Island) or recreational areas without substantial residential zoning (South Park-51st & Menlo, Knollwood Country Club, Country Club Park, Park La Brea, and so on). **We cannot analyze socioeconomic composition when no one lives there.**</sup>
 
-<sup style="font-size: 75%;">2) Any unincorporated community without an inhabiting population. Again, we cannot analyze socioeconomic composition when no one lives there.</sup>
+<sup style="font-size: 75%;">2) Any unincorporated community without an inhabiting population. **Again, we cannot analyze socioeconomic composition when no one lives there.**</sup>
 
-<sup style="font-size: 75%;">3) Any community listed on the LAPD organizational chart that is already accounted for by a larger community in our cross-referenced geographical data (we would not want to double-count). The list is as follows: West Van Nuys is simply considered Van Nuys, Oakwood is a part of Venice, Hillside Village/Sierra Vista are a part of El Sereno, Baldwin Village/Vista + Crenshaw are a part of Baldwin Hills, Virgil Village is a part of Hollywood, Lafayette Park is part of Westlake, La Tuna Canyon is a part of Sunland, Franklin Hills/Garvanza is a part of Los Feliz, Cahuenga Pass is a part of North Hollywood, Toluca Woods/West Toluca are a part of Toluca Lake, Universal City is a part of Studio City, Argyle/Spaulding Square/Sunset Strip/Vine are a part of Hollywood, Hobart is a part of various East Los Angeles communities, Mount Olympus is a part of the Hollywood Hills,  Brookside Park/Wilshire Center/Wilshire Vista is a part of Greater Wilshire, Miracle Mile is a part of Mid-Wilshire, Olympic Park/Wellington Square are a part of Mid-City, and South Carthay is a part of Carthay Circle.</sup>
+<sup style="font-size: 75%;">3) Any community listed on the LAPD organizational chart that is already accounted for by a larger community in our cross-referenced geographical data **(we would not want to double-count)**. The list is as follows: West Van Nuys is simply considered Van Nuys, Oakwood is a part of Venice, Hillside Village/Sierra Vista are a part of El Sereno, Baldwin Village/Vista + Crenshaw are a part of Baldwin Hills, Virgil Village is a part of Hollywood, Lafayette Park is part of Westlake, La Tuna Canyon is a part of Sunland, Franklin Hills/Garvanza is a part of Los Feliz, Cahuenga Pass is a part of North Hollywood, Toluca Woods/West Toluca are a part of Toluca Lake, Universal City is a part of Studio City, Argyle/Spaulding Square/Sunset Strip/Vine are a part of Hollywood, Hobart is a part of various East Los Angeles communities, Mount Olympus is a part of the Hollywood Hills,  Brookside Park/Wilshire Center/Wilshire Vista is a part of Greater Wilshire, Miracle Mile is a part of Mid-Wilshire, Olympic Park/Wellington Square are a part of Mid-City, and South Carthay is a part of Carthay Circle.</sup>
 
-<sup style="font-size: 75%;">4) Any community that no longer exists (Aliso Village in the Hollenbeck precinct, and Village Green in Baldwin Hills). We would not want to count a non-existent neighborhood.</sup>
+<sup style="font-size: 75%;">4) Any community that no longer exists (Aliso Village in the Hollenbeck precinct, and Village Green in Baldwin Hills). **We would not want to count a non-existent neighborhood.**</sup>
 
-<sup style="font-size: 75%;">5) Any community that is a part of a public housing project, because they are considered independent communities by the organizational chart but are not statistically independent (they would be double-counted otherwise). These are Avalon Gardens inside of Green Meadows, Avalon Gardens/Hacienda Village/Imperial Courts/Jordan Downs/Parkside Manor/Gonzaque Village inside Watts, Blythe Street near North Mission Hills, Estrada Court near Aliso Village, Ramona Gardens inside Boyle Heights, and Rose Hill Courts in El Sereno.</sup>
+<sup style="font-size: 75%;">5) Any community that is a part of a public housing project, because they are considered independent communities by the organizational chart but are not statistically independent **(they would be double-counted otherwise)**. These are Avalon Gardens inside of Green Meadows, Avalon Gardens/Hacienda Village/Imperial Courts/Jordan Downs/Parkside Manor/Gonzaque Village inside Watts, Blythe Street near North Mission Hills, Estrada Court near Aliso Village, Ramona Gardens inside Boyle Heights, and Rose Hill Courts in El Sereno.</sup>
 
-<sup style="font-size: 75%;">6) Any neighborhood whose name is represented twice for reference purposes (Grammercy Park). Again, we would not want to double count these neighborhoods.</sup>
+<sup style="font-size: 75%;">6) Any neighborhood whose name is represented twice for reference purposes (Grammercy Park). **Again, we would not want to double count these neighborhoods.**</sup>
 
 Below is the code for how I implemented the aforementioned data.
 
 ```{r}
+## Consolidating secondary/reference data sources to the primary source,
+## creating variables for convenient analysis
+
 auxiliarydata <- read_csv("2021lapdcensus - Yoon.csv")
 
 auxiliarydata <- auxiliarydata |>
@@ -104,22 +111,28 @@ auxiliarydata <- auxiliarydata |>
 
 ```
 
-From here (using our newly-synthesized `auxiliarydata` which accounts for a patchwork of all the previous data sets), our INDEPENDENT variable is the aggregation of the categorical variable of a precinct's socioeconomic classification (`precinct_class_grouping`), and our DEPENDENT variable is the relative frequency of reported crimes of sexual violence (`freq_per_capita`). With that cleaned data, we can also produce a basic visualization for our outcome variable. This basic visualization simply provides us what the outcome variable looks like per precinct, prior to the main analysis.
+From here (using our newly-synthesized `auxiliarydata` which accounts for a patchwork of all the previous data sets), our **independent** variable is the aggregation of the categorical variable of a precinct's socioeconomic classification (`precinct_class_grouping`), and our **dependent** variable is the relative frequency of reported crimes of sexual violence (`freq_per_capita`). With that cleaned data, we can also produce a basic visualization for our outcome variable. This basic/preliminary visualization simply provides us a density histogram of the outcome variable (so we can see how it is generally distributed), prior to the main analysis.
 
 ```{r}
+## Coding a preliminary visualization of our explanatory variable,
+## in a density histogram
+
 freqvis <- auxiliarydata |>
-  ggplot(mapping = aes(x = Precinct)) + 
-  geom_col(mapping = aes(y = freq_per_capita)) +
-  labs(y = "Rept. Crimes of Sexual Violence per Capita",
-       title = "Rept. Crimes of Sexual Violence per Capita by Precinct")
+  ggplot(mapping = aes(x = freq_per_capita)) + 
+  geom_histogram(mapping = aes(y = after_stat(density)), 
+                 fill = "skyblue",
+                 bins = 30) +
+  labs(x = "Rept. Crimes of Sexual Violence per Capita",
+       y = "Density",
+       title = "Density Histogram — Rept. Crimes of Sexual Violence per Capita")
 
 freqvis
-  
+
 ```
 
 ## Results
 
-Further, we can now utilize this data for a barplot visualization. We can plot the relative frequency of reported crimes of sexual violence, categorized by a precinct's socioeconomic classification, with respect to the amount of people. The formula for this is as follows: 
+Further, we can now utilize this data for a barplot visualization of the main analysis. We can plot the relative frequency of reported crimes of sexual violence, categorized by a precinct's socioeconomic classification, with respect to the amount of people. The formula for this is as follows: 
 
 \[
 \text{Freq. of Rept. Sexual Viol. Crimes by Precinct Type } i =
@@ -133,6 +146,8 @@ Further, we can now utilize this data for a barplot visualization. We can plot t
 Where \(c_i\) represents the number of reported crimes of sexual violence, \(p_i\) represents the number of people in a given precinct, and \(\text{classification}\) is a categorical variable of class divisions. Below is the code utilized to implement this.
 
 ```{r}
+## Constructing a visualization of the main analysis
+
 visualizer_df <- auxiliarydata |>
   group_by(precinct_class_grouping) |>
   summarize(crimes_sum = sum(count),
@@ -151,11 +166,54 @@ secondvisualizer <- visualizer_df |>
 secondvisualizer
 ```
 
-Here (after compiling precinct demographics), we have now granulated the data per capita, categorized by income group. And we can notice that 'reported crimes of sexual violence per capita' are demonstrably higher in Los Angeles precincts that are low-income, in this initial visualization. Middle and high income precincts are closer to each other, but high income precincts actually report higher levels of said crimes. Going back to the original question, it does seem like income category has a bearing on the frequency of these reported crimes. Thus, we are one step closer to our conclusion confirming our presumption. 
+Here (after compiling precinct demographics), we have now granulated the data per capita, categorized by income group. And we can notice that 'reported crimes of sexual violence per capita' are demonstrably higher in Los Angeles precincts that are low-income, in this initial visualization. Middle and high income precincts are fairly closer to each other in comparison, although high income precincts actually reflect a small increase in reports. Going back to the original question, it does seem like income category has a bearing on the frequency of these reported crimes. Thus, we are one step closer to our conclusion confirming our presumption. 
 
 We can further implement regression analysis to find quantitative data on these associations. 
 
+```{r}
+## Constructing a regression model
 
+library(modelsummary)
+
+auxiliarydata$precinct_class_grouping <- factor(auxiliarydata$precinct_class_grouping)
+auxiliarydata$precinct_class_grouping <- relevel(auxiliarydata$precinct_class_grouping, ref = "Middle Income")
+
+rsv_regression <- lm(freq_per_capita ~ precinct_class_grouping, 
+                     data = auxiliarydata)
+
+var_labels <- c(
+  "(Intercept)" = "Middle Income (baseline)",
+  "precinct_class_groupingLow Income" = "Low Income",
+  "precinct_class_groupingHigh Income" = "High Income"
+  )
+
+modelsummary::modelsummary(rsv_regression,
+                           statistic = c("s.e. = {std.error}",
+                                         "p = {p.value}"),
+                           coef_map = var_labels,
+                           gof_map = c("nobs", "r.squared", "adj.r.squared"),
+                           title = "Regression of Class Designation on R.S.V.")
+```
+
+Here, we releveled the dataframe to utilize middle income communities as the baseline for this regression. For precincts classified as middle income, we are returned a coefficient of 0.005 (the per capita frequency of reported sexual violence crimes). In other words / interpretively, in the aggregate of middle-income precincts, there is approx. 0.005 reported sexual violence crimes per person.
+
+For precincts with a low income designation, we see a coefficient value of approx. 0.008. Interpretively, this reflects a 0.008 unit increase in the per capita frequency of reported sexual violence crimes, in relation to the baseline of middle income precincts. In simpler terms, there is approx. 0.013 (0.005 baseline + 0.008 increase) reported sexual violence crimes per person in the aggregate of low income precincts.
+
+For precincts with a high income designation, we see a coefficient value of approx. 0.000. This does not reflect no change — rather, it reflects a negligible change in relation to the baseline when utilizing one significant figure. If we set the command `fmt = 5` (in `modelsummary`) to get three significant figures within the correlation coefficients, we would still observe a marginal increase of just 0.00017. Summarily, this value under our visualization conditions has very little change when compared to a middle income neighborhood.
+
+**Taking those three coefficients into account, we can draw a straightforward deduction. Low income precincts in Los Angeles see noticeably higher frequencies of reported crimes of sexual violence, compared to middle income precincts. High income precincts see negligibly higher frequencies of reported crimes compared to middle income precincts (i.e. they are virtually the same).** We can take this a step further by analyzing the statistical significance.
+
+Assume we set an alpha value of 0.05. The p-value — the probability of randomly observing a given coefficient, assuming that the null hypothesis of no effect is true — for the coefficient attached to low income precincts is approx. 0.041. Because this p-value is less than the alpha value of 0.05, we can assume that the increase in reported sexual violence crimes in these precincts (relative to middle income neighborhoods) is statistically significant. Randomly seeing these differences **is not likely**. However, we cannot necessarily establish causality, by the very nature of this observational study. We have not taken into account all the possible confounders, which will be elaborated on in the `conclusion` section. 
+
+However, the p-value attached to the coefficient for high income precincts is approx. 0.970. This is much greater than our alpha value. Therefore, we cannot assume that the difference in reported sexual violence crimes in these precincts is statistically significant (relative to middle income neighborhoods). Randomly observing these differences **is plausible**.
 
 ## Conclusion
+
+This study aimed to evaluate the extent to which socioeconomic status of a precinct related to the frequency of reported crimes of sexual violence in the City of Los Angeles. By cleaning up all relevant data to analyze their relationship, we found some interesting results. **While I originally theorized that improvements in socioeconomic status and reported crimes of sexual violence were constantly negatively correlated, this was not the case. Rather, the data reflects that as socioeconomic status decreases, reported crimes of sexual violence increase; however, there is a cliff to this effect. At some point (i.e. socioeconomic status increases from middle to high income precincts), reported crimes of sexual violence hold constant.** This conclusion holds at an alpha of 0.05 visually and in our regression analysis.
+
+There are four primary limitations to this analysis that need to be recognized. **First, while dividing Los Angeles into 21 precincts is more granular than existing analyses, greater granularity is possible.** With access to geographic modeling systems and more technical expertise/resources, we could be even more specific in our analysis by not just classifying precincts by their socioeconomic statuses, but smaller sub-communities (e.g. by 9-digit zip codes). This would provide us a more precise estimate of the socioeconomic statuses of an area. **Second, the primary crime data we employed may be confounded by global conditions.** Notably, this data took place during and in the aftermath of the global COVID-19 pandemic, meaning that both socioeconomic divisions and access to being outdoors was likely skewed to some degree. With the appropriate resources, taking a more orthodox period of time as a sample in later years might prove to be less privy to confounders. **Third, one major confounder that studies of this nature cannot account for is cultural history.** In essence -- certain districts of Los Angeles are known for being 'red-light districts', or hubs for prostitution. Existing literature reflects disproportionately high rates of reported sexual violence in these districts, and they are generally found in low-income communities. Perhaps it is not all low-income neighborhoods that suffer from these increased rates of reported sexual violence, but rather certain ones with a higher concentration of said districts. **Fourth and finally, we cannot take into account sexual violence not being reported.** If we assume that lower-income precincts have worse relationships with the justice system, rates of reporting may also be disproportionately skewed. More broadly, reports of sexual violence are not 1:1 to actual sexual violence. While I looked for control data (i.e. perhaps a statistical control that reflects these differences), I could not find one that accounted for class differences. With additional resources, a well-verified survey in these communities could help to provide for said control.
+
+Despite those limitations, this study does the best it can to reflect socioeconomic status and its bearing on these pernicious crimes. The directionality of the results also suggests that disparities born out of some of these confounders (like worsening pandemic-era inequality or under-reporting in low-income neighborhoods) would simply amplify the results we already observe. 
+
+## End
 
